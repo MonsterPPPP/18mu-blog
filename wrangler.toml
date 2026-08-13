@@ -12,6 +12,6 @@ binding = "KNOWLEDGE_KV"
 id = "ad05af24099647ed989baca691ad90c8"
 
 [vars]
-EMBEDDING_BASE_URL = "https://6649555.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
+EMBEDDING_BASE_URL = "https://llm-0mtq92tjjy7ynh6b.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
 EMBEDDING_MODEL = "qwen3.7-text-embedding"
 EMBEDDING_DIMENSIONS = "1024"
