@@ -18,4 +18,4 @@
 
 - [x] 4.1 Add a relation-validation command and include it in validation/build workflows.
 - [x] 4.2 Run type, build, route, diff, OpenSpec, and local visual checks.
-- [ ] 4.3 Commit, push, monitor Cloudflare deployment, and confirm knowledge synchronization.
+- [x] 4.3 Commit, push, monitor Cloudflare deployment, and confirm knowledge synchronization.
