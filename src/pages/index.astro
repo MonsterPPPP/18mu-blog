@@ -1,0 +1,5 @@
+---
+import Base from '../layouts/Base.astro';
+const sections=[['博客 / 知识库','完成写作后的中文文章、分类、搜索，以及未来的语义探索。','/blog'],['项目','中英双语项目说明，与经历形成职业叙事。','/projects'],['经历','完整、标准化的中英双语经历描述。','/resume'],['For Agent','公开、脱敏、可复用的经验和 Skills。','/agent']];
+---
+<Base title="18mu-blog" description="个人知识站"><section class="hero"><div class="eyebrow">Personal knowledge space</div><h1>把完成的思考，留在可再次抵达的地方。</h1><p>18mu-blog 是一个由 Markdown 驱动的个人博客、项目档案、经历集合与公开 Agent 经验库。</p></section><section class="grid">{sections.map(([title,text,href])=><a class="card" href={href}><h2>{title}</h2><p>{text}</p><span>进入 →</span></a>)}</section></Base>

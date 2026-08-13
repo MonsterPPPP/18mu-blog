@@ -1,0 +1,4 @@
+---
+import { getEntry,render } from 'astro:content';import Base from '../layouts/Base.astro';const entry=await getEntry('resume','main'); if (!entry) throw new Error('Missing resume content'); const {Content}=await render(entry);
+---
+<Base title="经历 | 18mu-blog"><article class="prose"><div class="eyebrow">Resume / Experience</div><h1>经历 <small>Experience</small></h1><div class="meta">最后更新 {entry.data.updated.toLocaleDateString('zh-CN')}</div><Content/></article></Base>

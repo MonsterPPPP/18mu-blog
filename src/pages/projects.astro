@@ -1,0 +1,4 @@
+---
+import { getCollection, render } from 'astro:content';import Base from '../layouts/Base.astro';const entries=await getCollection('projects',({data})=>data.published);
+---
+<Base title="项目 | 18mu-blog"><div class="eyebrow">Projects</div><h1>项目</h1><div class="list">{await Promise.all(entries.map(async p=>{const{Content}=await render(p);return <article><div class="meta">{p.data.status} · {p.data.updated.toLocaleDateString('zh-CN')}</div><h2>{p.data.title} <small>{p.data.titleEn}</small></h2><p>{p.data.summary}</p><p>{p.data.summaryEn}</p><Content/></article>}))}</div></Base>

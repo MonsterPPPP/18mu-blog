@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-fresh/
+.deploy/
+.astro/
+.wrangler/
+.dev.vars
+*.log

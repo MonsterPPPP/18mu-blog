@@ -1,0 +1,5 @@
+---
+import { getCollection } from 'astro:content'; import Base from '../../layouts/Base.astro'; import BlogSearch from '../../components/BlogSearch';
+const slug=(id:string)=>id.replace(/\.md$/, ''); const posts=(await getCollection('blog',({data})=>data.published)).sort((a,b)=>b.data.updated.valueOf()-a.data.updated.valueOf()); const items=posts.map(p=>({title:p.data.title,description:p.data.description,href:`/blog/${slug(p.id)}`,tags:p.data.tags}));
+---
+<Base title="博客 | 18mu-blog"><div class="eyebrow">Blog / Knowledge Base</div><h1>博客与知识库</h1><p>全部是完成写作后的中文定稿。</p><BlogSearch client:load items={items}/><div class="list">{posts.map(p=><article><div class="meta">{p.data.category} · {p.data.updated.toLocaleDateString('zh-CN')}</div><h2><a href={`/blog/${slug(p.id)}`}>{p.data.title}</a></h2><p>{p.data.description}</p><div>{p.data.tags.map(t=><span class="tag">{t}</span>)}</div></article>)}</div><div class="grid"><a class="card" href="/map"><h2>认知地图</h2><p>从语义相似度涌现主题山峰。</p></a><a class="card" href="/walk"><h2>随机漫步</h2><p>从一篇文章出发，沿关联继续游走。</p></a></div></Base>

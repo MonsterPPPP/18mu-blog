@@ -1,0 +1,4 @@
+---
+import { getCollection,render } from 'astro:content';import Base from '../layouts/Base.astro';const entries=await getCollection('agent',({data})=>data.published);
+---
+<Base title="For Agent | 18mu-blog"><div class="eyebrow">For Agent</div><h1>For Agent</h1><p>公开、脱敏、脱离项目的可复用经验。</p><div class="list">{await Promise.all(entries.map(async e=>{const{Content}=await render(e);return <article><div class="meta">最后更新 {e.data.updated.toLocaleDateString('zh-CN')}</div><h2>{e.data.title}</h2><p>{e.data.description}</p><div>{e.data.tags.map(t=><span class="tag">{t}</span>)}</div><Content/></article>}))}</div></Base>

@@ -1,0 +1,3 @@
+import { useMemo, useState } from 'react';
+type Item={title:string;description:string;href:string;tags:string[]};
+export default function BlogSearch({items}:{items:Item[]}){const[q,setQ]=useState('');const r=useMemo(()=>items.filter(i=>(i.title+i.description+i.tags.join(' ')).toLowerCase().includes(q.toLowerCase())),[q,items]);return <section><input aria-label="搜索博客" placeholder="搜索文章与标签" value={q} onChange={e=>setQ(e.target.value)}/>{q&&<div className="search-results">{r.map(i=><a href={i.href} key={i.href}>{i.title}</a>)}{!r.length&&<p>没有匹配文章。</p>}</div>}<style>{`input{width:100%;padding:12px;border:1px solid #d7d2c7;background:#fff;font:16px inherit}.search-results{padding:12px 0;display:grid;gap:8px}`}</style></section>}
