@@ -1,0 +1,7 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { articleHref, publishedPosts } from '../../../lib/content';
+export async function getStaticPaths() { const names = new Set((await publishedPosts()).map((post) => post.data.category)); return [...names].map((category) => ({ params: { category: encodeURIComponent(category) }, props: { category } })); }
+const { category } = Astro.props; const posts = (await publishedPosts()).filter((post) => post.data.category === category);
+---
+<Base title={`${category} | 18mu-blog`} section="blog"><section class="page-intro"><div class="eyebrow">Category</div><h1>{category}</h1><p>{posts.length} 篇公开文章。</p></section><div class="list">{posts.map((post) => <article class="entry"><div class="entry-meta"><time>{post.data.updated.toLocaleDateString('zh-CN')}</time></div><div><h2><a href={articleHref(post.id)}>{post.data.title}</a></h2><p>{post.data.description}</p>{post.data.tags.map((tag) => <a class="tag" href={`/blog/tag/${encodeURIComponent(tag)}`}>{tag}</a>)}</div></article>)}</div></Base>

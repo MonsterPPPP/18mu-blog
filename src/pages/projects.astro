@@ -1,4 +1,6 @@
 ---
-import { getCollection, render } from 'astro:content';import Base from '../layouts/Base.astro';const entries=await getCollection('projects',({data})=>data.published);
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+const entries = (await getCollection('projects', ({ data }) => data.published)).sort((a, b) => b.data.updated.valueOf() - a.data.updated.valueOf());
 ---
-<Base title="项目 | 18mu-blog"><div class="eyebrow">Projects</div><h1>项目</h1><div class="list">{await Promise.all(entries.map(async p=>{const{Content}=await render(p);return <article><div class="meta">{p.data.status} · {p.data.updated.toLocaleDateString('zh-CN')}</div><h2>{p.data.title} <small>{p.data.titleEn}</small></h2><p>{p.data.summary}</p><p>{p.data.summaryEn}</p><Content/></article>}))}</div></Base>
+<Base title="项目 | 18mu-blog" description="个人项目与实践记录" section="projects"><section class="page-intro"><div class="eyebrow">Projects</div><h1>项目</h1><p>持续做过的事与正在发展的想法。每个项目以中英双语留下它的背景、选择与下一步。</p></section><div class="list">{await Promise.all(entries.map(async (project) => { const { Content } = await render(project); return <article class="entry"><div class="entry-meta">{project.data.status}<time>更新于 {project.data.updated.toLocaleDateString('zh-CN')}</time></div><div><h2>{project.data.title} <span class="project-en">{project.data.titleEn}</span></h2><p>{project.data.summary}</p><p class="project-en">{project.data.summaryEn}</p><div class="project-body"><Content /></div></div></article>; }))}</div></Base>

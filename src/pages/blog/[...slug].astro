@@ -1,4 +1,8 @@
 ---
-import { getCollection, render } from 'astro:content'; import Base from '../../layouts/Base.astro'; export async function getStaticPaths(){return (await getCollection('blog',({data})=>data.published)).map(p=>({params:{slug:p.id.replace(/\.md$/, '')},props:{post:p}}));}const{post}=Astro.props;const{Content}=await render(post);
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+export async function getStaticPaths() { return (await getCollection('blog', ({ data }) => data.published)).map((post) => ({ params: { slug: post.id.replace(/\.md$/, '') }, props: { post } })); }
+const { post } = Astro.props;
+const { Content } = await render(post);
 ---
-<Base title={`${post.data.title} | 18mu-blog`}><article class="prose"><div class="meta">{post.data.category} · 最后更新 {post.data.updated.toLocaleDateString('zh-CN')}</div><h1>{post.data.title}</h1><p>{post.data.description}</p><div>{post.data.tags.map(t=><span class="tag">{t}</span>)}</div><Content /></article></Base>
+<Base title={`${post.data.title} | 18mu-blog`} description={post.data.description} section="blog"><article class="prose"><header class="article-header"><div class="meta">{post.data.category} · 最后更新 {post.data.updated.toLocaleDateString('zh-CN')}</div><h1>{post.data.title}</h1><p class="article-summary">{post.data.description}</p><div>{post.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div><div class="article-actions"><a class="action-link" href={`/walk?from=${encodeURIComponent(post.id.replace(/\.md$/, ''))}`}>从这里开始漫步 →</a><a class="action-link" href="/map">在认知地图中查看 ↗</a></div></header><Content /></article></Base>

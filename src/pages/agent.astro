@@ -1,4 +1,6 @@
 ---
-import { getCollection,render } from 'astro:content';import Base from '../layouts/Base.astro';const entries=await getCollection('agent',({data})=>data.published);
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+const entries = (await getCollection('agent', ({ data }) => data.published)).sort((a, b) => b.data.updated.valueOf() - a.data.updated.valueOf());
 ---
-<Base title="For Agent | 18mu-blog"><div class="eyebrow">For Agent</div><h1>For Agent</h1><p>公开、脱敏、脱离项目的可复用经验。</p><div class="list">{await Promise.all(entries.map(async e=>{const{Content}=await render(e);return <article><div class="meta">最后更新 {e.data.updated.toLocaleDateString('zh-CN')}</div><h2>{e.data.title}</h2><p>{e.data.description}</p><div>{e.data.tags.map(t=><span class="tag">{t}</span>)}</div><Content/></article>}))}</div></Base>
+<Base title="For Agent | 18mu-blog" description="公开、脱敏、可复用的 Agent 经验与 Skills" section="agent"><section class="page-intro"><div class="eyebrow">For Agent</div><h1>For Agent</h1><p>面向人类也面向 Agent 的公开经验库。这里的内容已经脱离具体项目与私有信息，可以被清晰地理解和复用。</p></section><div class="list">{await Promise.all(entries.map(async (entry) => { const { Content } = await render(entry); return <article class="entry"><div class="entry-meta">公共规范<time>更新于 {entry.data.updated.toLocaleDateString('zh-CN')}</time></div><div><h2>{entry.data.title}</h2><p>{entry.data.description}</p><div>{entry.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div><div class="project-body"><Content /></div></div></article>; }))}</div></Base>

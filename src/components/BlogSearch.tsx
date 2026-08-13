@@ -1,3 +1,24 @@
+import { Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
-type Item={title:string;description:string;href:string;tags:string[]};
-export default function BlogSearch({items}:{items:Item[]}){const[q,setQ]=useState('');const r=useMemo(()=>items.filter(i=>(i.title+i.description+i.tags.join(' ')).toLowerCase().includes(q.toLowerCase())),[q,items]);return <section><input aria-label="搜索博客" placeholder="搜索文章与标签" value={q} onChange={e=>setQ(e.target.value)}/>{q&&<div className="search-results">{r.map(i=><a href={i.href} key={i.href}>{i.title}</a>)}{!r.length&&<p>没有匹配文章。</p>}</div>}<style>{`input{width:100%;padding:12px;border:1px solid #d7d2c7;background:#fff;font:16px inherit}.search-results{padding:12px 0;display:grid;gap:8px}`}</style></section>}
+
+type Item = { title: string; description: string; href: string; tags: string[]; category: string };
+
+export default function BlogSearch({ items }: { items: Item[] }) {
+  const [query, setQuery] = useState('');
+  const matches = useMemo(() => {
+    const term = query.trim().toLocaleLowerCase();
+    return term ? items.filter((item) => `${item.title}${item.description}${item.category}${item.tags.join(' ')}`.toLocaleLowerCase().includes(term)) : [];
+  }, [query, items]);
+
+  return <section className="search" aria-label="博客检索">
+    <label>
+      <span className="sr-only">搜索文章与标签</span>
+      <input className="search-input" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索文章、分类或标签" />
+    </label>
+    <Search className="search-icon" size={20} aria-hidden="true" />
+    {query && <div className="search-results" role="list">
+      {matches.map((item) => <a className="search-result" href={item.href} key={item.href} role="listitem">{item.title}<small>{item.category} · {item.tags.join(' / ')}</small></a>)}
+      {!matches.length && <p className="search-empty">没有找到匹配内容，试试更短的关键词。</p>}
+    </div>}
+  </section>;
+}

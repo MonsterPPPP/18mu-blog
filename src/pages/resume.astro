@@ -1,4 +1,8 @@
 ---
-import { getEntry,render } from 'astro:content';import Base from '../layouts/Base.astro';const entry=await getEntry('resume','main'); if (!entry) throw new Error('Missing resume content'); const {Content}=await render(entry);
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+const entry = await getEntry('resume', 'main');
+if (!entry) throw new Error('Missing resume content');
+const { Content } = await render(entry);
 ---
-<Base title="经历 | 18mu-blog"><article class="prose"><div class="eyebrow">Resume / Experience</div><h1>经历 <small>Experience</small></h1><div class="meta">最后更新 {entry.data.updated.toLocaleDateString('zh-CN')}</div><Content/></article></Base>
+<Base title="经历 | 18mu-blog" description="完整标准化的个人经历描述" section="resume"><article class="prose"><header class="article-header"><div class="eyebrow">Resume / Experience</div><h1>经历 <span class="project-en">Experience</span></h1><p class="article-summary">一份持续维护的经历全集，与项目页相互参照，而非一张静态投递简历。</p><div class="meta">最后更新 {entry.data.updated.toLocaleDateString('zh-CN')}</div></header><Content /></article></Base>

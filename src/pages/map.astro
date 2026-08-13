@@ -1,4 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
+import KnowledgeMap from '../components/KnowledgeMap';
 ---
-<Base title="认知地图 | 18mu-blog"><article class="prose"><div class="eyebrow">Knowledge feature</div><h1>认知地图</h1><div class="notice"><strong>语义同步尚未配置。</strong><p>此处将展示全部已发布博客文章的语义聚类与可点击局部聚焦，不使用时间轴。需要先在 Cloudflare Worker 中配置外部 embedding 服务。</p></div></article></Base>
+<Base title="认知地图 | 18mu-blog" description="从语义相似度观察全部博客文章的主题关系" section="blog"><section class="page-intro"><div class="eyebrow">Knowledge feature / 01</div><h1>认知地图</h1><p>这是博客与知识库的全量语义空间。它不按时间排列，也不把标签误当作关系，而是让文章之间的相似性形成可探索的主题山峰。</p></section><KnowledgeMap client:load /></Base>

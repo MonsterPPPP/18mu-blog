@@ -1,5 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
-const sections=[['博客 / 知识库','完成写作后的中文文章、分类、搜索，以及未来的语义探索。','/blog'],['项目','中英双语项目说明，与经历形成职业叙事。','/projects'],['经历','完整、标准化的中英双语经历描述。','/resume'],['For Agent','公开、脱敏、可复用的经验和 Skills。','/agent']];
+const sections = [
+  { title: '博客与知识库', text: '完成写作后的中文定稿。沿着主题、问题和意外的关联重新抵达。', href: '/blog', className: 'featured', label: '01 / Knowledge' },
+  { title: '项目', text: '正在做过的事，以及它们如何彼此连接。', href: '/projects', label: '02 / Projects' },
+  { title: '认知地图', text: '让文章的语义关系自己显现出来。', href: '/map', className: 'map-card', label: '03 / Map' },
+  { title: 'For Agent', text: '公开、脱敏、可复用的工作经验与技能。', href: '/agent', className: 'agent-card', label: '04 / Agent' }
+];
 ---
-<Base title="18mu-blog" description="个人知识站"><section class="hero"><div class="eyebrow">Personal knowledge space</div><h1>把完成的思考，留在可再次抵达的地方。</h1><p>18mu-blog 是一个由 Markdown 驱动的个人博客、项目档案、经历集合与公开 Agent 经验库。</p></section><section class="grid">{sections.map(([title,text,href])=><a class="card" href={href}><h2>{title}</h2><p>{text}</p><span>进入 →</span></a>)}</section></Base>
+<Base title="18mu-blog" description="个人知识站">
+  <section class="hero">
+    <div><div class="eyebrow">Personal knowledge space</div><h1>把完成的思考，留在可再次抵达的地方。</h1><p class="hero-copy">18mu-blog 是一个由 Markdown 驱动的个人博客、项目档案、经历集合与公开 Agent 经验库。</p></div>
+    <aside class="hero-note"><strong>从内容出发</strong>我只维护写好的内容；页面、索引、关联与发布由系统完成。</aside>
+  </section>
+  <section><div class="section-heading"><h2>进入内容</h2><a href="/walk">不设目的地地漫步 →</a></div><div class="home-grid">{sections.map((item) => <a class:list={['home-card', item.className]} href={item.href}><div class="eyebrow">{item.label}</div><h3>{item.title}</h3><p>{item.text}</p><span class="card-arrow" aria-hidden="true">↗</span></a>)}</div></section>
+</Base>

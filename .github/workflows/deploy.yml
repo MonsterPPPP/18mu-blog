@@ -23,3 +23,7 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - run: npm run sync:knowledge
+        env:
+          KNOWLEDGE_SYNC_URL: https://18mu-blog.15589866906.workers.dev/api/sync/knowledge
+          KNOWLEDGE_SYNC_TOKEN: ${{ secrets.KNOWLEDGE_SYNC_TOKEN }}

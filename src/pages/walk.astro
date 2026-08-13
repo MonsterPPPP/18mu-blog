@@ -1,4 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import RandomWalk from '../components/RandomWalk';
+const startId = Astro.url.searchParams.get('from') ?? undefined;
 ---
-<Base title="随机漫步 | 18mu-blog"><article class="prose"><div class="eyebrow">Knowledge feature</div><h1>随机漫步</h1><div class="notice"><strong>语义同步尚未配置。</strong><p>此处将从随机文章或当前文章出发，沿语义关联继续游走，并记录路径。需要先在 Cloudflare Worker 中配置外部 embedding 服务。</p></div></article></Base>
+<Base title="随机漫步 | 18mu-blog" description="沿博客知识库的语义关联重新遇见旧内容" section="blog"><section class="page-intro"><div class="eyebrow">Knowledge feature / 02</div><h1>随机漫步</h1><p>没有目的地地重访内容。你可以从一篇刚读完的文章开始，也可以把起点交给系统，沿着语义关联走向下一篇。</p></section><RandomWalk client:load startId={startId} /></Base>
