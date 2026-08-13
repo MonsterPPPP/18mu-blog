@@ -2,7 +2,7 @@
 
 本手册面向站点维护者。日常只需要维护 Markdown 与图片；页面、索引、标签、RSS、站点地图、构建和部署均由代码自动完成。
 
-完整的内容契约见 `docs/博客描述.md`，面向自动化维护的细则见 `docs/Agent 内容更新协议.md`。
+完整的内容契约见 `docs/博客描述.md`，系统实现见 `docs/博客架构.md`，面向自动化维护的细则见 `docs/Agent 内容更新协议.md`。所有长期文档的入口见 `docs/文档索引.md`。
 首次配置或轮换 Cloudflare/GitHub 凭据时，严格按 `docs/Cloudflare 与 GitHub 配置手册.md` 执行。
 
 ## 一次更新的流程

@@ -15,4 +15,8 @@ npm run build
 npm run deploy
 ```
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for the human content, relationship, commit, and release workflow. See [docs/Cloudflare 与 GitHub 配置手册.md](./docs/Cloudflare%20与%20GitHub%20配置手册.md) for the one-time Cloudflare and GitHub configuration, [docs/Agent 内容更新协议.md](./docs/Agent%20内容更新协议.md) for the Agent operating procedure, and [docs/博客描述.md](./docs/博客描述.md) plus [docs/技术选型.md](./docs/技术选型.md) for the long-term product and architecture decisions.
+## Documentation
+
+Start with [docs/文档索引.md](./docs/文档索引.md). It routes human maintainers and Agents to the product, architecture, configuration, operational, and handoff documents.
+
+Key entries: [CONTRIBUTING.md](./CONTRIBUTING.md) for human content updates, [docs/Cloudflare 与 GitHub 配置手册.md](./docs/Cloudflare%20与%20GitHub%20配置手册.md) for account configuration, [docs/博客架构.md](./docs/博客架构.md) for the implemented system, [docs/部署踩坑记录.md](./docs/部署踩坑记录.md) for operational lessons, and [docs/Agent 接手指南.md](./docs/Agent%20接手指南.md) for the next Agent.
