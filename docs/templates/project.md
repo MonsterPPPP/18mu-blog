@@ -5,6 +5,9 @@ summary: "中文摘要。"
 summaryEn: "English summary with the same meaning."
 updated: 2026-08-13
 status: "Draft"
+relatedResume: [] # 公开经历 slug，例如 ["main"]
+relatedBlog: [] # 可选的单向博客链接 slug，不加入语义图谱
+relatedAgent: [] # 可选的单向 For Agent 链接 slug
 published: false
 ---
 

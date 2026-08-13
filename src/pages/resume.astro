@@ -1,8 +1,16 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-const entry = await getEntry('resume', 'main');
-if (!entry) throw new Error('Missing resume content');
-const { Content } = await render(entry);
+import { projectHref, publishedProjects, publishedResumeRecords, resolveRelated } from '../lib/content';
+const [entries, projects] = await Promise.all([publishedResumeRecords(), publishedProjects()]);
+const rendered = await Promise.all(entries.map(async (entry) => ({ entry, Content: (await render(entry)).Content })));
 ---
-<Base title="经历 | 18mu-blog" description="完整标准化的个人经历描述" section="resume"><article class="prose"><header class="article-header"><div class="eyebrow">Resume / Experience</div><h1>经历 <span class="project-en">Experience</span></h1><p class="article-summary">一份持续维护的经历全集，与项目页相互参照，而非一张静态投递简历。</p><div class="meta">最后更新 {entry.data.updated.toLocaleDateString('zh-CN')}</div></header><Content /></article></Base>
+<Base title="经历 | 18mu-blog" description="完整标准化的个人经历描述" section="resume">
+  <section class="page-intro"><div class="eyebrow">Resume / Experience</div><h1>经历 <span class="project-en">Experience</span></h1><p>一份持续维护的公开经历全集，与项目记录相互参照，而不是一张静态可投递简历。</p></section>
+  {rendered.length ? <div class="resume-stack">{rendered.map(({ entry, Content }) => {
+    const explicit = resolveRelated(projects, entry.data.relatedProjects);
+    const reciprocal = projects.filter((project) => project.data.relatedResume.includes(entry.id.replace(/\.md$/, '')));
+    const relatedProjects = [...new Map([...explicit, ...reciprocal].map((project) => [project.id, project])).values()];
+    return <article class="prose resume-record"><header class="article-header"><div class="meta">最后更新 {entry.data.updated.toLocaleDateString('zh-CN')}</div><h2>{entry.data.title} <span class="project-en">{entry.data.titleEn}</span></h2></header><Content />{relatedProjects.length ? <aside class="record-links"><span class="eyebrow">Related projects</span><h2>相关项目</h2>{relatedProjects.map((project) => <a href={projectHref(project.id)}>{project.data.title} <span>{project.data.titleEn}</span><b aria-hidden="true">→</b></a>)}</aside> : null}</article>;
+  })}</div> : <section class="empty-state"><h2>经历正在整理</h2><p>公开经历会在完成标准化描述后呈现。</p></section>}
+</Base>

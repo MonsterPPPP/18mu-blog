@@ -1,6 +1,14 @@
 ---
-import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-const entries = (await getCollection('agent', ({ data }) => data.published)).sort((a, b) => b.data.updated.valueOf() - a.data.updated.valueOf());
+import RecordSearch from '../components/RecordSearch';
+import { agentHref, publishedAgentRecords } from '../lib/content';
+const entries = await publishedAgentRecords();
+const tags = [...new Set(entries.flatMap((entry) => entry.data.tags))].sort((left, right) => left.localeCompare(right, 'zh-CN'));
+const items = entries.map((entry) => ({ title: entry.data.title, description: entry.data.description, href: agentHref(entry.id), tags: entry.data.tags }));
 ---
-<Base title="For Agent | 18mu-blog" description="公开、脱敏、可复用的 Agent 经验与 Skills" section="agent"><section class="page-intro"><div class="eyebrow">For Agent</div><h1>For Agent</h1><p>面向人类也面向 Agent 的公开经验库。这里的内容已经脱离具体项目与私有信息，可以被清晰地理解和复用。</p></section><div class="list">{await Promise.all(entries.map(async (entry) => { const { Content } = await render(entry); return <article class="entry"><div class="entry-meta">公共规范<time>更新于 {entry.data.updated.toLocaleDateString('zh-CN')}</time></div><div><h2>{entry.data.title}</h2><p>{entry.data.description}</p><div>{entry.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div><div class="project-body"><Content /></div></div></article>; }))}</div></Base>
+<Base title="For Agent | 18mu-blog" description="公开、脱敏、可复用的 Agent 经验与 Skills" section="agent">
+  <section class="page-intro"><div class="eyebrow">For Agent</div><h1>For Agent</h1><p>面向人类也面向 Agent 的公开经验库。内容脱离具体项目与私有信息，被整理为可以清晰理解和复用的操作知识。</p></section>
+  <RecordSearch client:load items={items} label="搜索 For Agent 内容" placeholder="搜索经验、场景或标签" />
+  {tags.length ? <div class="taxonomy"><div><span class="eyebrow">Tags</span>{tags.map((tag) => <a href={`/agent/tag/${encodeURIComponent(tag)}`}>#{tag}</a>)}</div></div> : null}
+  {entries.length ? <div class="list">{entries.map((entry) => <article class="entry"><div class="entry-meta">公共规范<time>更新于 {entry.data.updated.toLocaleDateString('zh-CN')}</time></div><div><h2><a href={agentHref(entry.id)}>{entry.data.title}</a></h2><p>{entry.data.description}</p><div>{entry.data.tags.map((tag) => <a class="tag" href={`/agent/tag/${encodeURIComponent(tag)}`}>{tag}</a>)}</div></div></article>)}</div> : <section class="empty-state"><h2>公开经验库正在整理</h2><p>新的内容会在完成脱敏与标准化后出现。</p></section>}
+</Base>

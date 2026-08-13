@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "validate": "astro check",
+    "validate:relations": "node scripts/validate-content-relations.mjs",
+    "validate": "npm run validate:relations && astro check",
     "build": "npm run validate && astro build --outDir .deploy --force",
     "sync:knowledge": "node scripts/sync-knowledge.mjs",
     "preview": "astro preview",

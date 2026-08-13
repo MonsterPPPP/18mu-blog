@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { agentHref, articleHref, cleanSlug, publishedAgentRecords, publishedPosts, publishedResumeRecords, resolveRelated } from '../../lib/content';
+export async function getStaticPaths() {
+  return (await getCollection('projects', ({ data }) => data.published)).map((project) => ({ params: { slug: cleanSlug(project.id) }, props: { project } }));
+}
+const { project } = Astro.props;
+const { Content } = await render(project);
+const [resumes, posts, agentRecords] = await Promise.all([publishedResumeRecords(), publishedPosts(), publishedAgentRecords()]);
+const relatedResume = resolveRelated(resumes, project.data.relatedResume);
+const relatedBlog = resolveRelated(posts, project.data.relatedBlog);
+const relatedAgent = resolveRelated(agentRecords, project.data.relatedAgent);
+---
+<Base title={`${project.data.title} | 18mu-blog`} description={project.data.summary} section="projects">
+  <article class="prose project-detail"><header class="article-header"><div class="meta">{project.data.status} · 最后更新 {project.data.updated.toLocaleDateString('zh-CN')}</div><h1>{project.data.title} <span class="project-en">{project.data.titleEn}</span></h1><p class="article-summary">{project.data.summary}</p><p class="article-summary project-summary-en">{project.data.summaryEn}</p></header><Content />
+  {(relatedResume.length || relatedBlog.length || relatedAgent.length) && <aside class="record-links" aria-label="相关记录">
+    <span class="eyebrow">Related records</span><h2>相关记录</h2>
+    {relatedResume.length ? <div><h3>经历</h3>{relatedResume.map((entry) => <a href="/resume">{entry.data.title} <span>{entry.data.titleEn}</span><b aria-hidden="true">→</b></a>)}</div> : null}
+    {relatedBlog.length ? <div><h3>博客 / 知识库</h3>{relatedBlog.map((entry) => <a href={articleHref(entry.id)}>{entry.data.title}<b aria-hidden="true">→</b></a>)}</div> : null}
+    {relatedAgent.length ? <div><h3>For Agent</h3>{relatedAgent.map((entry) => <a href={agentHref(entry.id)}>{entry.data.title}<b aria-hidden="true">→</b></a>)}</div> : null}
+  </aside>}</article>
+</Base>

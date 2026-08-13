@@ -1,0 +1,8 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { agentHref, publishedAgentRecords } from '../../../lib/content';
+export async function getStaticPaths() { const entries = await publishedAgentRecords(); return [...new Set(entries.flatMap((entry) => entry.data.tags))].map((tag) => ({ params: { tag: encodeURIComponent(tag) }, props: { tag } })); }
+const { tag } = Astro.props;
+const entries = (await publishedAgentRecords()).filter((entry) => entry.data.tags.includes(tag));
+---
+<Base title={`#${tag} | For Agent | 18mu-blog`} description={`For Agent 标签：${tag}`} section="agent"><section class="page-intro"><div class="eyebrow">For Agent / Tag</div><h1>#{tag}</h1><p>与这个标签相关的公开、脱敏经验。</p></section>{entries.length ? <div class="list">{entries.map((entry) => <article class="entry"><div class="entry-meta"><time>更新于 {entry.data.updated.toLocaleDateString('zh-CN')}</time></div><div><h2><a href={agentHref(entry.id)}>{entry.data.title}</a></h2><p>{entry.data.description}</p></div></article>)}</div> : <section class="empty-state"><h2>还没有对应内容</h2><p>这个标签目前没有可公开的记录。</p><a class="text-link" href="/agent">返回 For Agent</a></section>}</Base>

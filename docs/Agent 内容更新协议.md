@@ -39,6 +39,14 @@
 
 供应商接入后，派生数据必须可由已发布博客 Markdown 重建；Worker 保存 provider 配置和密钥，浏览器只读取无密钥的公开快照。
 
+## 公共记录关系
+
+- 文件 slug 是内容的稳定公开标识。项目详情路径为 `/projects/<slug>`，For Agent 详情路径为 `/agent/<slug>`。
+- `projects` 支持 `relatedResume`、`relatedBlog`、`relatedAgent`；`resume` 支持 `relatedProjects`。这些字段只能填目标公开 Markdown 文件的 slug。
+- 项目与经历应形成双向可阅读关系：任一方声明后，页面会自动呈现另一个方向。项目指向博客或 For Agent 时仅提供单向跳转。
+- 每次修改关系后都运行 `npm run validate:relations`；该命令也包含在完整 `npm run validate` 中。不要以页面 URL、标题或人工标签替代 slug。
+- Agent 区的标签、搜索与详情只作用于 `agent` collection，绝不发送到 embedding 同步端点。
+
 ## 验证与提交程序
 
 每次可提交改动至少执行：
@@ -64,7 +72,7 @@ fix: preserve article image paths
 
 ## 发布与验收
 
-优先通过推送 `main` 触发 GitHub Actions；这要求仓库已配置 `CLOUDFLARE_API_TOKEN` 和 `CLOUDFLARE_ACCOUNT_ID`。仅在本机已认证且需要直接发布时执行 `npm run deploy`。
+优先通过推送 `main` 触发 GitHub Actions；这要求仓库已配置 `CLOUDFLARE_API_TOKEN` 和 `CLOUDFLARE_ACCOUNT_ID`。仅在本机已认证且需要直接发布时执行 `npm run deploy`。工作流部署后会自动执行 `npm run sync:knowledge`，只同步 `published: true` 的博客内容；同步令牌和模型密钥由 GitHub Secrets 与 Cloudflare Worker 管理，Agent 不得读取、输出或提交它们。
 
 部署完成后，访问生产站并验证受影响的公开 URL。内容更新至少检查：首页缩略、所属列表、详情页、图片和链接。部署失败时报告失败命令、可复现错误和未完成的步骤，不要把失败描述为已发布。
 

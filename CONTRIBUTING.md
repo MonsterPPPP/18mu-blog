@@ -33,6 +33,13 @@
 - 项目必须同时提供中文和英文标题、摘要。经历页面同样保持中英双语。
 - For Agent 文档写清适用场景、步骤、验证方式与边界，并先完成脱敏。
 
+## 关联与稳定 URL
+
+- 内容文件名（去掉 `.md`）就是稳定 slug，也是公开详情页路径的一部分。项目为 `/projects/<slug>`，For Agent 为 `/agent/<slug>`；已发布内容不要轻易改名。
+- 项目可使用 `relatedResume`、`relatedBlog`、`relatedAgent` 关联公开内容。经历记录使用 `relatedProjects`。每一项都填写目标文件的 slug，例如 `blog-platform` 或 `release-baseline`。
+- 项目和经历的关联在两个方向都会自动显示；项目到博客、For Agent 的关联仅是单向阅读链接。博客语义地图和随机漫步始终只读取已发布博客。
+- 新建经历记录时使用 `docs/templates/resume.md`；新建项目时使用 `docs/templates/project.md`。
+
 ## 图片、链接与公开性
 
 - 优先采用可压缩的 WebP、AVIF 或 PNG/JPEG；文件名使用小写英文与连字符。
@@ -49,7 +56,7 @@ npm run validate
 npm run build
 ```
 
-`npm run dev` 用于本地预览。`npm run validate` 校验 Markdown metadata 和 TypeScript；`npm run build` 会再次校验并生成部署资产。
+`npm run dev` 用于本地预览。`npm run validate` 校验 Markdown metadata、内容关联和 TypeScript；`npm run build` 会再次校验并生成部署资产。`npm run validate:relations` 可单独检查已声明关联是否都指向存在且公开的内容。
 
 ## 提交和上线
 
@@ -62,7 +69,7 @@ git commit -m "docs: add article about semantic writing"
 git push origin main
 ```
 
-提交信息遵循 Conventional Commits，常用类型是 `docs:`（内容或文档）、`feat:`（新能力）、`fix:`（修复）、`chore:`（维护）。推送 `main` 后，GitHub Actions 使用仓库 Secrets `CLOUDFLARE_API_TOKEN` 与 `CLOUDFLARE_ACCOUNT_ID` 自动发布。
+提交信息遵循 Conventional Commits，常用类型是 `docs:`（内容或文档）、`feat:`（新能力）、`fix:`（修复）、`chore:`（维护）。推送 `main` 后，GitHub Actions 使用仓库 Secrets `CLOUDFLARE_API_TOKEN` 与 `CLOUDFLARE_ACCOUNT_ID` 自动发布。对于博客内容，工作流会在部署后自动调用受保护的 Worker，同步已发布文章到语义快照；作者不需要也不应持有 `KNOWLEDGE_SYNC_TOKEN`、embedding API key 或模型端点配置。
 
 自动发布尚未配置或需要立即从本机发布时，先完成 `wrangler login`，再执行：
 

@@ -2,6 +2,7 @@
 title: "经历"
 titleEn: "Experience"
 updated: 2026-08-13
+relatedProjects: ["blog-platform"]
 ---
 
 ## 中文

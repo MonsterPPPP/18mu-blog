@@ -1,0 +1,9 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { cleanSlug } from '../../lib/content';
+export async function getStaticPaths() { return (await getCollection('agent', ({ data }) => data.published)).map((entry) => ({ params: { slug: cleanSlug(entry.id) }, props: { entry } })); }
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<Base title={`${entry.data.title} | For Agent | 18mu-blog`} description={entry.data.description} section="agent"><article class="prose"><header class="article-header"><div class="eyebrow">For Agent / Public practice</div><h1>{entry.data.title}</h1><p class="article-summary">{entry.data.description}</p><div>{entry.data.tags.map((tag) => <a class="tag" href={`/agent/tag/${encodeURIComponent(tag)}`}>{tag}</a>)}</div><div class="meta">最后更新 {entry.data.updated.toLocaleDateString('zh-CN')}</div></header><Content /></article></Base>

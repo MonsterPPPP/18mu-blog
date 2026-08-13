@@ -30,8 +30,8 @@ export default function KnowledgeMap() {
     return nodes.map((node) => ({ ...node, px: Math.max(7, Math.min(93, node.x ?? 50)), py: Math.max(10, Math.min(90, node.y ?? 50)) }));
   }, [data]);
 
-  if (state === 'loading') return <div className="map-loading"><LoaderCircle size={22} className="spin" /> 正在读取知识快照</div>;
-  if (state === 'empty') return <div className="empty-state"><MapPin size={26} aria-hidden="true" /><h2>地图正在等待第一份语义快照</h2><p>文章仍可完整阅读。完成 embedding 同步后，这里会自动呈现文章之间的主题邻近关系。</p></div>;
+  if (state === 'loading') return <div className="map-loading" role="status"><LoaderCircle size={22} className="spin" /> 正在读取知识快照</div>;
+  if (state === 'empty') return <div className="empty-state" role="status"><MapPin size={26} aria-hidden="true" /><h2>地图暂时不可用</h2><p>语义快照尚未取得；你仍可以返回博客阅读全部文章。</p><a className="text-link" href="/blog">返回博客</a></div>;
 
   const nodes = positioned;
   return <section className="knowledge-map" aria-label="博客认知地图">
@@ -39,7 +39,7 @@ export default function KnowledgeMap() {
       <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         {active && active.neighbors.map((edge) => { const source = nodes.find((node) => node.id === active.id); const target = nodes.find((node) => node.id === edge.id); return source && target ? <line key={edge.id} x1={source.px} y1={source.py} x2={target.px} y2={target.py} /> : null; })}
       </svg>
-      {nodes.map((node) => <button key={node.id} className={`map-node ${selected === node.id ? 'selected' : ''} ${linked.has(node.id) ? 'linked' : ''}`} style={{ left: `${node.px}%`, top: `${node.py}%`, '--node-color': colors[Math.abs(node.cluster) % colors.length] } as CSSProperties} onClick={() => setSelected(node.id)} aria-label={`查看 ${node.title}`}><span>{node.title}</span></button>)}
+      {nodes.map((node) => <button key={node.id} className={`map-node ${selected === node.id ? 'selected' : ''} ${linked.has(node.id) ? 'linked' : ''}`} style={{ left: `${node.px}%`, top: `${node.py}%`, '--node-color': colors[Math.abs(node.cluster) % colors.length] } as CSSProperties} onClick={() => setSelected(node.id)} aria-label={`查看 ${node.title}`} aria-pressed={selected === node.id}><span>{node.title}</span></button>)}
       <p className="map-caption">每一个点是一篇文章。选择一点，查看它的语义邻居。</p>
     </div>
     <aside className="map-inspector" aria-live="polite">
