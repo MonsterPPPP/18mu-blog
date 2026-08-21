@@ -86,6 +86,3 @@ featured: false
 
 > **真正的修行，是在尘世中炼心，在责任中见性，而非逃离。**
 
----
-
-*配图：[修行之路图解](/images/dao-jia-xiu-xing-yu-xing-ming-zhi-xue/xiuxing-workflow.html)*
